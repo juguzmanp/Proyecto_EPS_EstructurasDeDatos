@@ -141,8 +141,8 @@ public class SistemaEPS {
 
     private void registrarUsuariosAleatorios(int cantidad) {
         String[] tiposDoc = {"TI", "CC", "CE"};
-        String[] nombres = {"Juan", "María", "Pedro", "Ana", "Luis", "Carla"};
-        String[] apellidos = {"Pérez", "Gómez", "Rodríguez", "Martínez", "López"};
+        String[] nombres = {"Juan", "Manuel", "Carlos", "María", "Pedro", "Ana", "Luis", "Carla", "Santiago", "Sara"};
+        String[] apellidos = {"Pérez", "Gómez", "Rodríguez", "Martínez", "López", "Gonzales", "Hernandez", "Agudelo", "García", "Cruz"};
         String[] sexos = {"Masculino", "Femenino"};
         Random rnd = new Random();
 
