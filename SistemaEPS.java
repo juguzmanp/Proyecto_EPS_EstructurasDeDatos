@@ -8,9 +8,9 @@ public class SistemaEPS {
     private PriorityQueue<UsuarioUrgencias> colaUrgencias;
 
     public SistemaEPS() {
-        usuarios = new ArrayList<>();
-        colaCitas = new LinkedList<>();
-        colaUrgencias = new PriorityQueue<>(Comparator.comparingInt(UsuarioUrgencias::getNivelTriage));
+        usuarios = new ArrayList<>(); // Se crea un arreglo dinamico para almacenar los usuarios registrados
+        colaCitas = new LinkedList<>(); // Se crea una cola
+        colaUrgencias = new PriorityQueue<>(Comparator.comparingInt(UsuarioUrgencias::getNivelTriage)); //Se crea la cola con prioridad
         sc = new Scanner(System.in);
     }
 
@@ -30,18 +30,18 @@ public class SistemaEPS {
             System.out.println("10. Salir");
             System.out.print("Seleccione una opcion: ");
 
-            opcion = sc.nextInt();
-            sc.nextLine();
+            opcion = sc.nextInt(); //Asigna a la variable el entero que sera ingresado por el usuario
+            sc.nextLine(); // Pide una entrada del usuario
 
             switch (opcion) {
                 case 1:
-                    registrarUsuario();
+                    registrarUsuario(); // Se llama el método
                     break;
                 case 2: {
                     System.out.print("Ingrese la cantidad de usuarios a generar: ");
                     int cantUsuarios = sc.nextInt();
                     sc.nextLine();
-                    registrarUsuariosAleatorios(cantUsuarios);
+                    registrarUsuariosAleatorios(cantUsuarios); // Se escribe tiene como entrada para el método la cantidad de usuarios a generar
                     break;
                 }
                 case 3:
@@ -88,7 +88,7 @@ public class SistemaEPS {
         sc.nextLine();
 
         String tipoDoc;
-        switch (tipo) {
+        switch (tipo) { // Se ejecuta una de las opciones dependiendo de si la entrada coincide
             case 1:
                 tipoDoc = "TI";
                 break;
@@ -124,7 +124,7 @@ public class SistemaEPS {
             if (sex != 1 && sex != 2) {
                 System.out.println("Opcion no valida. Intente de nuevo.");
             }
-        } while (sex != 1 && sex != 2);
+        } while (sex != 1 && sex != 2); // Se espera con un ciclo hasta recibir una entrada valida
 
         String sexo;
         if(sex==1){
@@ -235,21 +235,21 @@ public class SistemaEPS {
 
     private void mostrarColas() {
         System.out.println("\n--- Cola de citas ---");
-        for (Usuario user : colaCitas) {
-            System.out.println(user);
+        for (Usuario user : colaCitas) { //Recorre los objetos de tipo Usuario en la cola
+            System.out.println(user); //Muestra en la consola los elementos
         }
 
         System.out.println("\n--- Cola de urgencias ---");
-        PriorityQueue<UsuarioUrgencias> copia = new PriorityQueue<>(colaUrgencias);
-        while (!copia.isEmpty()) {
-            UsuarioUrgencias usUrg = copia.poll();
-            System.out.println(usUrg);
+        PriorityQueue<UsuarioUrgencias> copia = new PriorityQueue<>(colaUrgencias); //Crea una copia de la cola con prioridad, para no alterar la original
+        while (!copia.isEmpty()) { // Ejecuta el comando mientras la lista no este vacía
+            UsuarioUrgencias usUrg = copia.poll(); // Saca los elementos de la lista copiada en orden de prioridad
+            System.out.println(usUrg); // Imprime los elementos en el orden mencionado en la línea anterior
         }
     }
 
     private void atenderCita() {
-        Usuario atendido = colaCitas.poll();
-        if (atendido != null) System.out.println("Atendiendo cita de: " + atendido);
+        Usuario atendido = colaCitas.poll(); //Toma el siguiente elemento de la cola
+        if (atendido != null) System.out.println("Atendiendo cita de: " + atendido); // Si la cola no está vacia, atiende el la cita
         else System.out.println("No hay usuarios en la cola de citas.");
     }
 
@@ -259,4 +259,5 @@ public class SistemaEPS {
         else System.out.println("No hay usuarios en la cola de urgencias.");
     }
 }
+
 
