@@ -1,11 +1,14 @@
-public class UsuarioUrgencias {
+public class UsuarioUrgencias extends Usuario{
 
-    private Usuario usuario;
     private int nivelTriage;
 
-    public UsuarioUrgencias (Usuario usuario, int nivelTriage){
-
-        this.usuario = usuario;
+    public UsuarioUrgencias(Usuario base, int nivelTriage) {
+        super(base.getTipoDocumento(),
+                base.getNumeroDocumento(),
+                base.getNombres(),
+                base.getApellidos(),
+                base.getEdad(),
+                base.getSexo());
         this.nivelTriage = nivelTriage;
     }
 
@@ -13,12 +16,8 @@ public class UsuarioUrgencias {
         return nivelTriage;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
     @Override
     public String toString() {
-        return usuario.toString() + " - Prioridad " + nivelTriage;
+        return super.toString() + " - Nivel de triage " + nivelTriage;
     }
 }

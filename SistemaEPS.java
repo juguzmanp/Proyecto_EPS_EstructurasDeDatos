@@ -18,23 +18,67 @@ public class SistemaEPS {
         int opcion;
         do {
             System.out.println("\n--- MENU PRINCIPAL ---");
-            System.out.println("1. Registrar usuario");
-            System.out.println("2. Solicitar cita");
-            System.out.println("3. Solicitar atencion urgencias");
-            System.out.println("4. Ver colas");
-            System.out.println("5. Salir");
+            System.out.println("1. Registrar usuario manual");
+            System.out.println("2. Registrar N usuarios aleatorios");
+            System.out.println("3. Solicitar cita");
+            System.out.println("4. Solicitar atencion urgencias");
+            System.out.println("5. Asignar citas aleatorias");
+            System.out.println("6. Asignar urgencias aleatorias");
+            System.out.println("7. Ver colas");
+            System.out.println("8. Atender cita");
+            System.out.println("9. Atender urgencia");
+            System.out.println("10. Salir");
             System.out.print("Seleccione una opcion: ");
+
             opcion = sc.nextInt();
             sc.nextLine();
 
             switch (opcion) {
-                case 1 -> registrarUsuario();
-                case 2 -> solicitarCita();
-                case 3 -> solicitarUrgencia();
-                case 4 -> mostrarColas();
-                default -> System.out.println("Opcion no valida");
+                case 1:
+                    registrarUsuario();
+                    break;
+                case 2: {
+                    System.out.print("Ingrese la cantidad de usuarios a generar: ");
+                    int cantUsuarios = sc.nextInt();
+                    sc.nextLine();
+                    registrarUsuariosAleatorios(cantUsuarios);
+                    break;
+                }
+                case 3:
+                    solicitarCita();
+                    break;
+                case 4:
+                    solicitarUrgencia();
+                    break;
+                case 5:
+                    System.out.print("Ingrese la cantidad de citas a asignar aleatoriamente: ");
+                    int n = sc.nextInt();
+                    sc.nextLine();
+                    asignarCitasAleatorias(n);
+                    break;
+                case 6:
+                    System.out.print("Ingrese la cantidad de urgencias a asignar aleatoriamente: ");
+                    int cantUsuariosUrg = sc.nextInt();
+                    sc.nextLine();
+                    asignarUrgenciasAleatorias(cantUsuariosUrg);
+                    break;
+                case 7:
+                    mostrarColas();
+                    break;
+                case 8:
+                    atenderCita();
+                    break;
+                case 9:
+                    atenderUrgencia();
+                    break;
+                case 10:
+                    System.out.println("Saliendo... ");
+                    break;
+                default:
+                    System.out.println("Opcion no valida");
+                    break;
             }
-        } while (opcion != 5);
+        } while (opcion != 10);
     }
 
     private void registrarUsuario() {
@@ -42,12 +86,22 @@ public class SistemaEPS {
         System.out.println("1. TI\n2. CC\n3. CE");
         int tipo = sc.nextInt();
         sc.nextLine();
-        String tipoDoc = switch (tipo) {
-            case 1 -> "TI";
-            case 2 -> "CC";
-            case 3 -> "CE";
-            default -> "Desconocido";
-        };
+
+        String tipoDoc;
+        switch (tipo) {
+            case 1:
+                tipoDoc = "TI";
+                break;
+            case 2:
+                tipoDoc = "CC";
+                break;
+            case 3:
+                tipoDoc = "CE";
+                break;
+            default:
+                tipoDoc = "Desconocido";
+                break;
+        }
 
         System.out.print("Numero de documento: ");
         String numDoc = sc.nextLine();
@@ -62,19 +116,80 @@ public class SistemaEPS {
         int edad = sc.nextInt();
         sc.nextLine();
 
-        System.out.println("Sexo:\n1. Masculino\n2. Femenino");
-        int sex = sc.nextInt();
-        sc.nextLine();
-        String sexo = (sex == 1) ? "Masculino" : "Femenino";
+        int sex;
+        do{
+            System.out.println("Sexo:\n1. Masculino\n2. Femenino");
+            sex = sc.nextInt();
+            sc.nextLine();
+            if (sex != 1 && sex != 2) {
+                System.out.println("Opcion no valida. Intente de nuevo.");
+            }
+        } while (sex != 1 && sex != 2);
 
-        Usuario u = new Usuario(tipoDoc, numDoc, nombres, apellidos, edad, sexo);
-        usuarios.add(u);
+        String sexo;
+        if(sex==1){
+            sexo = "Masculino";
+        }
+        else{
+            sexo = "Femenino";
+        }
+
+        Usuario usr = new Usuario(tipoDoc, numDoc, nombres, apellidos, edad, sexo);
+        usuarios.add(usr);
         System.out.println("Usuario registrado correctamente.");
     }
 
+    private void registrarUsuariosAleatorios(int cantidad) {
+        String[] tiposDoc = {"TI", "CC", "CE"};
+        String[] nombres = {"Juan", "María", "Pedro", "Ana", "Luis", "Carla"};
+        String[] apellidos = {"Pérez", "Gómez", "Rodríguez", "Martínez", "López"};
+        String[] sexos = {"Masculino", "Femenino"};
+        Random rnd = new Random();
+
+        for (int i = 0; i < cantidad; i++) {
+            String tipoDoc = tiposDoc[rnd.nextInt(tiposDoc.length)];
+            String numDoc = String.valueOf(100000 + rnd.nextInt(900000));
+            String nombre = nombres[rnd.nextInt(nombres.length)];
+            String apellido = apellidos[rnd.nextInt(apellidos.length)];
+            int edad = 1 + rnd.nextInt(99);
+            String sexo = sexos[rnd.nextInt(sexos.length)];
+
+            Usuario u = new Usuario(tipoDoc, numDoc, nombre, apellido, edad, sexo);
+            usuarios.add(u);
+        }
+        System.out.println(cantidad + " usuarios aleatorios registrados.");
+    }
+
+    private void asignarCitasAleatorias(int cantidad) {
+        if (usuarios.isEmpty()) {
+            System.out.println("No hay usuarios registrados.");
+            return;
+        }
+        Random rnd = new Random();
+        for (int i = 0; i < cantidad; i++) {
+            Usuario u = usuarios.get(rnd.nextInt(usuarios.size()));
+            colaCitas.add(u);
+        }
+        System.out.println(cantidad + " citas aleatorias asignadas.");
+    }
+
+    private void asignarUrgenciasAleatorias(int cantidad) {
+        if (usuarios.isEmpty()) {
+            System.out.println("No hay usuarios registrados.");
+            return;
+        }
+        Random rnd = new Random();
+        for (int i = 0; i < cantidad; i++) {
+            Usuario u = usuarios.get(rnd.nextInt(usuarios.size()));
+            int nivelTriage = 1 + rnd.nextInt(5);
+            colaUrgencias.add(new UsuarioUrgencias(u, nivelTriage));
+        }
+        System.out.println(cantidad + " urgencias aleatorias asignadas.");
+    }
+
     private Usuario buscarUsuarioPorDocumento(String doc) {
-        for (Usuario u : usuarios) {
-            if (u.getNumeroDocumento().equals(doc)) return u;
+        for (Usuario usr : usuarios) {
+            if (usr.getNumeroDocumento().equals(doc)) return usr;
         }
         return null;
     }
@@ -82,9 +197,9 @@ public class SistemaEPS {
     private void solicitarCita() {
         System.out.print("Ingrese numero de documento: ");
         String doc = sc.nextLine();
-        Usuario u = buscarUsuarioPorDocumento(doc);
-        if (u != null) {
-            colaCitas.add(u);
+        Usuario usr = buscarUsuarioPorDocumento(doc);
+        if (usr != null) {
+            colaCitas.add(usr);
             System.out.println("Usuario agregado a la cola de citas.");
         } else {
             System.out.println("Usuario no encontrado.");
@@ -94,13 +209,25 @@ public class SistemaEPS {
     private void solicitarUrgencia() {
         System.out.print("Ingrese numero de documento: ");
         String doc = sc.nextLine();
-        Usuario u = buscarUsuarioPorDocumento(doc);
-        if (u != null) {
-            System.out.print("Ingrese nivel de urgencia (1=Alta prioridad, 5=Baja): ");
-            int prioridad = sc.nextInt();
-            sc.nextLine();
-            colaUrgencias.add(new UsuarioUrgencias(u, prioridad));
-            System.out.println("Usuario agregado a la cola de urgencias con prioridad " + prioridad);
+        Usuario usr = buscarUsuarioPorDocumento(doc);
+        if (usr != null) {
+            int nivelTriage;
+            do{
+                System.out.print("Ingrese nivel de urgencia: ");
+                System.out.println("1. Triage I (Emergencia)");
+                System.out.println("2. Triage II (Urgencia)");
+                System.out.println("3. Triage III (Urgencia menor)");
+                System.out.println("4. Triage IV (Consulta prioritaria)");
+                System.out.println("5. Triage V (Consulta externa)");
+                nivelTriage = sc.nextInt();
+                sc.nextLine();
+                if(nivelTriage < 1 || nivelTriage > 5){
+                    System.out.println("Opcion no valida, intente de nuevo.");
+                }
+            } while (nivelTriage < 1 || nivelTriage > 5);
+
+            colaUrgencias.add(new UsuarioUrgencias(usr, nivelTriage));
+            System.out.println("Usuario agregado a la cola de urgencias con prioridad " + nivelTriage);
         } else {
             System.out.println("Usuario no encontrado.");
         }
@@ -108,11 +235,27 @@ public class SistemaEPS {
 
     private void mostrarColas() {
         System.out.println("\n--- Cola de citas ---");
-        for (Usuario u : colaCitas)
-            System.out.println(u);
+        for (Usuario user : colaCitas) {
+            System.out.println(user);
+        }
+
         System.out.println("\n--- Cola de urgencias ---");
-        for (UsuarioUrgencias uu : colaUrgencias)
-            System.out.println(uu.getUsuario() + " - Prioridad " + uu.getNivelTriage());
+        PriorityQueue<UsuarioUrgencias> copia = new PriorityQueue<>(colaUrgencias);
+        while (!copia.isEmpty()) {
+            UsuarioUrgencias usUrg = copia.poll();
+            System.out.println(usUrg);
+        }
     }
 
+    private void atenderCita() {
+        Usuario atendido = colaCitas.poll();
+        if (atendido != null) System.out.println("Atendiendo cita de: " + atendido);
+        else System.out.println("No hay usuarios en la cola de citas.");
+    }
+
+    private void atenderUrgencia() {
+        UsuarioUrgencias atendido = colaUrgencias.poll();
+        if (atendido != null) System.out.println("Atendiendo urgencia de: " + atendido);
+        else System.out.println("No hay usuarios en la cola de urgencias.");
+    }
 }

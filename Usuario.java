@@ -7,8 +7,8 @@ public class Usuario {
     private int edad;
     private String sexo;
 
-    public Usuario(String tipoDocumento, String numeroDocumento, String nombres,
-                   String apellidos, int edad, String sexo) {
+    public Usuario(String tipoDocumento, String numeroDocumento,
+                   String nombres, String apellidos, int edad, String sexo) {
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
         this.nombres = nombres;
@@ -19,6 +19,26 @@ public class Usuario {
 
     public String getNumeroDocumento() {
         return numeroDocumento;
+    }
+
+    public String getTipoDocumento() {
+        return tipoDocumento;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public String getSexo() {
+        return sexo;
     }
 
     @Override
