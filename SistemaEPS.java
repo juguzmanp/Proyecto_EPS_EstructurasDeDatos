@@ -141,7 +141,7 @@ public class SistemaEPS {
 
     private void registrarUsuariosAleatorios(int cantidad) {
         String[] tiposDoc = {"TI", "CC", "CE"};
-        String[] nombres = {"Juan", "Manuel", "Carlos", "María", "Pedro", "Ana", "Luis", "Carla", "Santiago", "Sara"};
+        String[] nombres = {"Juan", "Manuel", "Carlos", "María", "Pedro", "Ana", "Luis", "Carla", "Lucía", "Sara"};
         String[] apellidos = {"Pérez", "Gómez", "Rodríguez", "Martínez", "López", "Gonzales", "Hernandez", "Agudelo", "García", "Cruz"};
         String[] sexos = {"Masculino", "Femenino"};
         Random rnd = new Random();
@@ -259,3 +259,4 @@ public class SistemaEPS {
         else System.out.println("No hay usuarios en la cola de urgencias.");
     }
 }
+
