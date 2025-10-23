@@ -160,6 +160,13 @@ public class SistemaEPS {
         System.out.println(cantidad + " usuarios aleatorios registrados.");
     }
 
+    private boolean existeEnColaUrgencias(String doc) {
+        for (UsuarioUrgencias u : colaUrgencias) {
+            if (u.getNumeroDocumento().equals(doc)) return true;
+        }
+        return false;
+    }
+
     private void asignarCitasAleatorias(int cantidad) {
         if (usuarios.isEmpty()) {
             System.out.println("No hay usuarios registrados.");
@@ -181,6 +188,12 @@ public class SistemaEPS {
         Random rnd = new Random();
         for (int i = 0; i < cantidad; i++) {
             Usuario u = usuarios.get(rnd.nextInt(usuarios.size()));
+
+            if (existeEnColaUrgencias(u.getNumeroDocumento())) {
+                i--;
+                continue;
+            }
+
             int nivelTriage = 1 + rnd.nextInt(5);
             colaUrgencias.add(new UsuarioUrgencias(u, nivelTriage));
         }
@@ -259,5 +272,6 @@ public class SistemaEPS {
         else System.out.println("No hay usuarios en la cola de urgencias.");
     }
 }
+
 
 
