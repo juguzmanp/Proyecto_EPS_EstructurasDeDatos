@@ -226,7 +226,7 @@ public class SistemaEPS {
         if (usr != null) {
             int nivelTriage;
             do{
-                System.out.print("Ingrese nivel de urgencia: ");
+                System.out.println("Ingrese nivel de urgencia: ");
                 System.out.println("1. Triage I (Emergencia)");
                 System.out.println("2. Triage II (Urgencia)");
                 System.out.println("3. Triage III (Urgencia menor)");
@@ -272,6 +272,7 @@ public class SistemaEPS {
         else System.out.println("No hay usuarios en la cola de urgencias.");
     }
 }
+
 
 
 
